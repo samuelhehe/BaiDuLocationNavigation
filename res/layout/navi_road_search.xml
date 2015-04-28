@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/background_light" >
+
+    <TextView
+        android:id="@+id/navi_roadback_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:textSize="15sp"
+        android:background="@drawable/map_layer_background"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="请选择导航地点" />
+
+    <RelativeLayout
+        android:id="@+id/navi_road_point_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/navi_roadback_title"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/map_layer_background" >
+
+        <EditText
+            android:id="@+id/navi_road_point_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:hint="请输入导航的起始地点"
+            android:imeOptions="actionSearch"
+            android:paddingLeft="10dp"
+            android:text="我的位置"
+            android:textColor="@color/holo_blue_light"
+            android:textCursorDrawable="@null" />
+
+        <Button
+            android:id="@+id/navi_road_point_selet_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/navi_road_point_input"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="地图选点" />
+
+        <EditText
+            android:id="@+id/navi_road_dest_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/navi_road_point_selet_btn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:hint="请输入导航的目的地名称"
+            android:imeOptions="actionSearch"
+            android:paddingLeft="10dp"
+            android:text=""
+            android:textColor="@android:color/background_dark"
+            android:textCursorDrawable="@null" />
+
+        <Button
+            android:id="@+id/navi_road_point_selet_btn2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/navi_road_dest_input"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:gravity="center_horizontal|center_vertical"
+            android:text="地图选点" />
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Bmaps</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="Switch_on">经纬度转地址:开</string>
+    <string name="Switch_off">经纬度转地址:关</string>
+
+</resources>

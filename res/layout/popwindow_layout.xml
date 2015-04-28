@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+    	android:orientation="vertical" >
+    <!-- android:background="@drawable/map_layer_background" -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:background="@drawable/lines"
+            android:layout_height="40dp" >
+
+            <TextView
+                android:id="@+id/tv1"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="出发:" >
+            </TextView>
+
+            <EditText
+                android:id="@+id/start_ed"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/tv1"
+                android:background="@null"
+                android:hint="雄楚大道理工大学" />
+        </RelativeLayout>
+ 
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:background="@drawable/lines"
+            android:layout_height="40dp" >
+
+            <TextView
+                android:id="@+id/tv2"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="到达:" />
+
+            <EditText
+                android:id="@+id/end_ed"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toRightOf="@+id/tv2"
+                android:background="@null"
+                android:hint="名族大道关谷广场" />
+        </RelativeLayout>
+
+         
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+             >
+ 
+            <TextView
+                android:id="@+id/by_car"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/search_selector"
+                android:text="驾车" />
+            <ImageView
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:src="@color/darkgray" />
+            <TextView
+                android:id="@+id/by_foot"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="@drawable/search_selector"
+                android:text="步行" />
+            <ImageView
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:src="@color/darkgray"
+            android:alpha="100" />
+            
+            <TextView
+                android:id="@+id/by_bus"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="@drawable/search_selector"
+                android:text="公交" />
+
+        </LinearLayout>
+ 
+
+</LinearLayout>

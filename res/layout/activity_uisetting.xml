@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/mapView_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/lines"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/plus_layout"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
+        android:layout_above="@+id/sub_layout"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/zoom_selector"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="1dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/sub_layout"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="70dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/zoom_selector"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="1dp" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="—" />
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/docenter_layout"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_above="@+id/mylocation_ll"
+        android:background="@drawable/searchbg"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="3dp" >
+
+        <ImageView
+            android:id="@+id/docenter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="1dp"
+            android:src="@drawable/center_drvier" />
+    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/mylocation_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="-1dp"
+        android:background="@drawable/map_layer_background"
+        android:padding="6dp" >
+
+        <TextView
+            android:id="@+id/mylocation_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="5dp"
+            android:text="我的位置"
+            android:textColor="@android:color/background_dark"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/mylocation_radius"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/mylocation_tv"
+            android:layout_marginLeft="1dp"
+            android:layout_marginTop="1dp"
+            android:layout_toRightOf="@+id/mylocation_tv"
+            android:hint="暂时无法获取精确度"
+            android:text="(精确到500米)"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/mylocation_address_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:layout_marginTop="2dp"
+            android:layout_alignLeft="@+id/mylocation_tv"
+            android:layout_below="@+id/mylocation_tv"
+            android:hint="暂时无法获取地址信息"
+            android:text="郑州市航空港区。。。。"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="13sp" />
+    </RelativeLayout>
+
+</RelativeLayout>

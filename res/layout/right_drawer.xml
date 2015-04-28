@@ -1,0 +1,294 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myapp="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ff393939"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/login_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.0"
+        android:minHeight="102.0dip"
+        android:orientation="horizontal"
+        android:visibility="gone" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="15.0dip"
+            android:layout_marginTop="30.0dip"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <ImageView
+                android:id="@+id/avatar"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginLeft="32.0dip"
+                android:layout_marginRight="16.0dip"
+                android:background="@drawable/round_avatar_bg"
+                android:padding="1.0dip" />
+
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:textColor="#ffd4d4d4"
+                android:textSize="16.0sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/logout_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.0"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16.0dip"
+            android:layout_marginTop="34.0dip"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/type1"
+                    android:layout_width="65dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/map1" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="普通图"
+                    android:textColor="@color/darkgray" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/type2"
+                    android:layout_width="65dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/map2" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="交通图"
+                    android:textColor="@color/darkgray" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/type3"
+                    android:layout_width="65dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/map3" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="卫星图"
+                    android:textColor="@color/darkgray" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="13.0dip"
+            android:text="这是一条文字"
+            android:textColor="@color/whitesmoke"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <ImageView style="@style/left_drawer_item_line" />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="0.0dip"
+        android:layout_weight="1.0" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:id="@+id/pgc_btn"
+                style="@style/left_drawer_item_layout"
+                android:visibility="gone" >
+
+                <TextView
+                    android:id="@+id/pgc_name"
+                    style="@style/left_drawer_item_text"
+                    android:drawableLeft="@drawable/ic_drawer_pgc" />
+            </RelativeLayout>
+
+            <ImageView style="@style/left_drawer_item_line" />
+
+            <RelativeLayout
+                android:id="@+id/del"
+                style="@style/left_drawer_item_layout" >
+
+                <TextView
+                    style="@style/left_drawer_item_text"
+                    android:drawableLeft="@drawable/ic_drawer_feedback_normal"
+                    android:text="清除价格覆盖物" />
+            </RelativeLayout>
+
+            <ImageView style="@style/left_drawer_item_line" />
+
+            <RelativeLayout
+                android:id="@+id/draw"
+                style="@style/left_drawer_item_layout" >
+
+                <TextView
+                    style="@style/left_drawer_item_text"
+                    android:drawableLeft="@drawable/ic_drawer_favorite_normal"
+                    android:text="画覆盖物" />
+            </RelativeLayout>
+
+            <ImageView style="@style/left_drawer_item_line" />
+
+            <RelativeLayout
+                android:id="@+id/menu_search"
+                style="@style/left_drawer_item_layout" >
+
+                <TextView
+                    style="@style/left_drawer_item_text"
+                    android:drawableLeft="@drawable/ic_drawer_search"
+                    android:text="查询" />
+            </RelativeLayout>
+
+           
+
+            <ImageView
+                android:id="@+id/offline_divider"
+                style="@style/left_drawer_item_line" />
+
+            <LinearLayout
+                android:id="@+id/app_activity_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="50.0dip"
+                android:orientation="vertical"
+                android:visibility="visible" >
+
+                <RelativeLayout
+                    android:id="@+id/favorite_btn"
+                    style="@style/left_drawer_item_layout" >
+
+                    <TextView
+                        style="@style/left_drawer_item_text"
+                        android:drawableLeft="@drawable/ic_drawer_offline_normal"
+                        android:text="消息" />
+                </RelativeLayout>
+
+                <ImageView style="@style/left_drawer_item_line" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/favorite_btn"
+                style="@style/left_drawer_item_layout" >
+
+                <TextView
+                    style="@style/left_drawer_item_text"
+                    android:drawableLeft="@drawable/ic_drawer_setting_normal"
+                    android:text="我的设置" />
+            </RelativeLayout>
+             <ImageView style="@style/left_drawer_item_line" />
+
+            <RelativeLayout
+                android:id="@+id/offline_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+
+                <LinearLayout
+                    android:id="@+id/favorite_btn"
+                    style="@style/left_drawer_item_layout"
+                    android:gravity="center|left" >
+
+                    <com.example.others.SwitchButton
+                        android:id="@+id/switchButton"
+                        style="@style/Switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="true" />
+
+                    <TextView
+                        android:id="@+id/switchText"
+                        style="@style/left_drawer_item_text"
+                        android:text="经纬度转地址" />
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <ImageView style="@style/left_drawer_item_line" />
+
+            <RelativeLayout
+                android:id="@+id/favorite_btn"
+                style="@style/left_drawer_item_layout" >
+
+                <TextView
+                    style="@style/left_drawer_item_text"
+                    android:drawableLeft="@drawable/ic_drawer_message_normal"
+                    android:text="消息" />
+            </RelativeLayout>
+
+            <ImageView style="@style/left_drawer_item_line" />
+
+            <ImageView
+                android:id="@+id/appstore_line"
+                style="@style/left_drawer_item_line" />
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10.0dip"
+        android:layout_marginLeft="19.0dip"
+        android:layout_weight="0.0"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <!-- myapp:thumb="@drawable/wiper_switch_slipper_btn" -->
+        <!-- myapp:track="@drawable/wiper_switch_btn" -->
+
+        <TextView
+            android:id="@+id/night_mode_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15.0dip"
+            android:text="侧滑菜单显示"
+            android:textColor="@color/left_drawer_night_mode_text"
+            android:textSize="15.0sp" />
+    </LinearLayout>
+
+</LinearLayout>
