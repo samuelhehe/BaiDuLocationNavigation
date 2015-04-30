@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/background_light" >
+
+    <RelativeLayout
+        android:id="@+id/navi_road_point_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/map_layer_background" >
+
+        <AutoCompleteTextView
+            android:id="@+id/navi_road_point_input_actv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:hint="请输入导航的起始地点"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:text=""
+            android:textColor="@color/holo_blue_light"
+            android:textCursorDrawable="@null" />
+
+        <TextView
+            android:id="@+id/navi_road_point_input_mylocation_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/navi_road_point_input_actv"
+            android:layout_below="@+id/navi_road_point_input_actv"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical|left"
+            android:padding="3dp"
+            android:text="我的位置"
+            android:textColor="@color/holo_blue_light"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/navi_address_pendingitem_lv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/navi_road_point_rl"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="10dp"
+        android:visibility="gone" >
+    </ListView>
+
+</RelativeLayout>

@@ -68,4 +68,15 @@
 		<item name="android:windowEnterAnimation">@anim/slide_in_right_scale</item>
 		<item name="android:windowExitAnimation">@anim/slide_out_right_scale</item>
 	</style>
+	
+    <style name="Theme.CustomDialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowBackground">@drawable/filled_box</item>
+        <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowIsFloating">true</item>
+-                                 <!-- 是否浮现在activity之上 -->
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:textColor">@color/black</item>  <!-- 模糊 -->
+        <item name="android:windowNoTitle">true</item>
+    </style>
+    
 </resources>

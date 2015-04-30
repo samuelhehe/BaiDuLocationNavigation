@@ -4,73 +4,100 @@
     android:layout_height="match_parent"
     android:background="@android:color/background_light" >
 
-    <TextView
-        android:id="@+id/navi_roadback_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:textSize="15sp"
-        android:background="@drawable/map_layer_background"
-        android:gravity="center_horizontal|center_vertical"
-        android:text="请选择导航地点" />
-
     <RelativeLayout
         android:id="@+id/navi_road_point_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/navi_roadback_title"
+        android:layout_alignParentTop="true"
         android:layout_marginTop="10dp"
         android:background="@drawable/map_layer_background" >
 
-        <EditText
-            android:id="@+id/navi_road_point_input"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/navi_road_point_exchange_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="切换" />
+
+        <Button
+            android:id="@+id/navi_road_point_input_addrss"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="5dp"
             android:layout_marginTop="10dp"
-            android:hint="请输入导航的起始地点"
-            android:imeOptions="actionSearch"
+            android:layout_toLeftOf="@+id/navi_road_point_input_btn"
+            android:layout_toRightOf="@+id/navi_road_point_exchange_btn"
+            android:background="@android:color/background_light"
+            android:gravity="center_vertical|left"
+            android:hint="请输入起点"
             android:paddingLeft="10dp"
             android:text="我的位置"
-            android:textColor="@color/holo_blue_light"
-            android:textCursorDrawable="@null" />
+            android:textColor="@color/holo_blue_light" />
 
         <Button
-            android:id="@+id/navi_road_point_selet_btn"
-            android:layout_width="match_parent"
+            android:id="@+id/navi_road_point_input_btn"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/navi_road_point_input"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"
-            android:gravity="center_horizontal|center_vertical"
-            android:text="地图选点" />
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/navi_road_point_input_addrss"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@android:color/background_light"
+            android:drawableLeft="@drawable/indoor_loc_suc"
+            android:drawablePadding="3dp"
+            android:text="选点" />
 
-        <EditText
-            android:id="@+id/navi_road_dest_input"
+        <View
+            android:id="@+id/split_line"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignLeft="@+id/navi_road_point_input_addrss"
+            android:layout_below="@+id/navi_road_point_input_addrss"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/darker_gray" />
+
+        <Button
+            android:id="@+id/navi_road_dest_input_addrss"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/navi_road_point_selet_btn"
+            android:layout_alignLeft="@+id/split_line"
+            android:layout_below="@+id/split_line"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:hint="请输入导航的目的地名称"
-            android:imeOptions="actionSearch"
+            android:layout_toLeftOf="@+id/navi_road_point_input_btn"
+            android:background="@android:color/background_light"
+            android:gravity="center_vertical|left"
+            android:text="请输入终点"
             android:paddingLeft="10dp"
-            android:text=""
-            android:textColor="@android:color/background_dark"
-            android:textCursorDrawable="@null" />
+            android:textColor="@android:color/darker_gray" />
 
         <Button
-            android:id="@+id/navi_road_point_selet_btn2"
-            android:layout_width="match_parent"
+            android:id="@+id/navi_road_point_dest_input_btn"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/navi_road_dest_input"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"
-            android:gravity="center_horizontal|center_vertical"
-            android:text="地图选点" />
+            android:layout_alignLeft="@+id/navi_road_point_input_btn"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/navi_road_dest_input_addrss"
+            android:layout_marginRight="5dp"
+            android:background="@android:color/background_light"
+            android:drawableLeft="@drawable/indoor_loc_suc"
+            android:drawablePadding="3dp"
+            android:text="选点" />
     </RelativeLayout>
+
+    <Button
+        android:id="@+id/navi_lanucher_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/navi_road_point_rl"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/map_layer_background"
+        android:text="开始导航"
+        android:textColor="@color/holo_blue_light"
+        android:textSize="20sp" />
 
 </RelativeLayout>

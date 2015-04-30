@@ -1,120 +1,206 @@
 package com.samuelnoes.bdmaps.aty;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
 
-import com.baidu.mapapi.search.geocode.GeoCodeOption;
-import com.baidu.mapapi.search.geocode.GeoCoder;
-import com.baidu.mapapi.search.geocode.OnGetGeoCoderResultListener;
-import com.baidu.mapapi.search.geocode.ReverseGeoCodeResult;
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
+import com.baidu.mapapi.model.LatLng;
+import com.samuelnoes.bdmaps.model.NaviSDInfo;
 import com.samuelnotes.bdmaps.R;
 
 public class AtyNaviDestSelect extends BaseActivity implements OnClickListener {
 
-	private EditText navi_road_point_input;
 
-	private Button navi_road_point_selet_btn;
+	private LocationClient mLocClient;
 
-	private GeoCoder mSearch;
 
+	public static final String TAG=  "AtyNaviDestSelect";
+	
+	
+	public String address ="我的位置";
+
+	public double mLatitude;
+
+	public double mLongitude;
+
+	public String city;
+
+	public static final int navi_flag_startAddrss = 1;
+	public static final int navi_flag_destAddrss = 2;
+	public static final int navi_flag_startPoint = 3;
+	public static final int navi_flag_destPoint = 4;
+	
+	public static final String NaviPointObj  = "NaviPointObj";
+	
+	
+	///// 如果用户直接选择我的位置 ，则需要使用当前位置作为导航的出发点
+	public LatLng currentLL;
+	private BDLocationListener myListener =new MyLocationListenner();
+
+	
+	
+	private Button navi_lanucher_btn; 
+	
+	/**
+	 * 选点
+	 */
+	private Button navi_road_point_input_btn ,navi_road_dest_input_btn ; 
+	
+	/**
+	 * 选址
+	 */
+	private Button navi_road_point_input , navi_road_dest_input;
+	
+	
+	private Button navi_road_point_exchange_btn; 
+	
+	
+	private NaviSDInfo startNaviInfo = new NaviSDInfo(); 
+	
+	
+	private NaviSDInfo destNaviInfo  = new NaviSDInfo() ; 
+	
+	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.navi_road_search);
 		initView();
-		mSearch = GeoCoder.newInstance();
-		mSearch.setOnGetGeoCodeResultListener(new GeoCodeResult());
+		startLocationClient();
+	}
+
+	private void startLocationClient() {
+		mLocClient = new LocationClient(this);
+		mLocClient.registerLocationListener(myListener);
+		LocationClientOption option = new LocationClientOption();
+		option.setOpenGps(true);// 打开gps
+		option.setCoorType("bd09ll"); // 设置坐标类型
+		option.setAddrType("all");// 返回的定位结果包含地址信息
+		option.setScanSpan(15000);// 设置发起定位请求的间隔时间为10s(小于1秒则一次定位)
+		mLocClient.setLocOption(option);
+		mLocClient.start();
+		
+		startNaviInfo.setSdLatitude(currentLL.latitude);
+		startNaviInfo.setSdLongitude(currentLL.longitude);
+		startNaviInfo.setSdAddress(address);
 	}
 
 	private void initView() {
-		navi_road_point_input = (EditText) findViewById(R.id.navi_road_point_input);
-		navi_road_point_selet_btn = (Button) findViewById(R.id.navi_road_point_selet_btn);
-		navi_road_point_selet_btn.setOnClickListener(this);
-		navi_road_point_input
-				.setOnEditorActionListener(new OnEditorActionListener() {
-					public boolean onEditorAction(TextView v, int actionId,
-							KeyEvent event) {
-						if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-							mSearch.geocode(new GeoCodeOption().city("郑州").address("河南省郑州市航空港区郑港四街沃金广场"));
-						}
-						return false;
-					}
-				});
+		navi_lanucher_btn = (Button) this.findViewById(R.id.navi_lanucher_btn);
+		navi_lanucher_btn.setOnClickListener(this);
+		navi_road_point_input_btn = (Button) this.findViewById(R.id.navi_road_point_input_btn);
+		navi_road_point_input_btn.setOnClickListener(this);
+		
+		navi_road_dest_input_btn = (Button) this.findViewById(R.id.navi_road_point_dest_input_btn);
+		navi_road_dest_input_btn.setOnClickListener(this);
+		
+		navi_road_point_input = (Button) this.findViewById(R.id.navi_road_point_input_addrss);
+		navi_road_point_input.setOnClickListener(this);
+		
+		navi_road_dest_input = (Button) this.findViewById(R.id.navi_road_dest_input_addrss);
+		navi_road_dest_input.setOnClickListener(this);
+		
+		navi_road_point_exchange_btn =(Button) this.findViewById(R.id.navi_road_point_exchange_btn);
+		navi_road_point_exchange_btn.setOnClickListener(this);
 	}
 
 	@Override
 	public void onClick(View v) {
 
 		switch (v.getId()) {
-		case R.id.navi_road_point_selet_btn:
+		case R.id.navi_lanucher_btn:
 
 			
 			
+			
+			
+			/// 启动导航
+			break;
+		case R.id.navi_road_point_input_btn:
+			startActivityForResult(new Intent(AtyNaviDestSelect.this,AtyNaviSDSelect.class), navi_flag_startPoint);
+			
+			/// 起点选点
+			break;
+		case R.id.navi_road_point_dest_input_btn:
+			startActivityForResult(new Intent(AtyNaviDestSelect.this,AtyNaviSDSelect.class), navi_flag_destPoint);
+			
+			/// 结束选点
+			break;
+		case R.id.navi_road_point_input_addrss:
+			
+			startActivityForResult(new Intent(AtyNaviDestSelect.this,AtyNaviSDSelect.class), navi_flag_startAddrss);
+			/// 开始选址
+			break;
+		case R.id.navi_road_dest_input_addrss:
+			startActivityForResult(new Intent(AtyNaviDestSelect.this,AtyNaviSDSelect.class), navi_flag_destAddrss);
+			/// 结束选址
+			break;
+			
+		case R.id.navi_road_point_exchange_btn:
+
+			///起始地点交换
 			break;
 		}
 	}
 
-	class GeoCodeResult implements OnGetGeoCoderResultListener {
-
-		// private int zIndex = 0x123;
-
-		@Override
-		public void onGetGeoCodeResult(
-				com.baidu.mapapi.search.geocode.GeoCodeResult geoCodeResult) {
-			// 地址-->经纬度
-			// mBaiduMap.clear();
-			// mBaiduMap.addOverlay(new MarkerOptions().position(
-			// geoCodeResult.getLocation()).icon(
-			// BitmapDescriptorFactory
-			// .fromResource(R.drawable.icon_gcoding)));
-			// mBaiduMap.setMapStatus(MapStatusUpdateFactory
-			// .newLatLng(geoCodeResult.getLocation()));
-			// String strInfo = String.format("纬度：%f 经度：%f",
-			// geoCodeResult.getLocation().latitude,
-			// geoCodeResult.getLocation().longitude);
-			// Toast.makeText(AtyNaviDestPointSelect.this, strInfo,
-			// Toast.LENGTH_LONG).show();
+	
+	
+	
+	
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if(resultCode==RESULT_OK){
+			switch (requestCode) {
+			case navi_flag_startAddrss:
+				NaviSDInfo naviSdInfo = 	(NaviSDInfo) data.getSerializableExtra(NaviPointObj);
+				Log.d(TAG, "navisdinfo: "+ naviSdInfo);
+				startNaviInfo = naviSdInfo;
+				
+				break;
+			case navi_flag_destAddrss:
+				
+				NaviSDInfo navidestInfo = 	(NaviSDInfo) data.getSerializableExtra(NaviPointObj);
+				Log.d(TAG, "navidestInfo: "+ navidestInfo);
+				destNaviInfo = navidestInfo;
+				
+				break;
+			case navi_flag_startPoint:
+				
+				break;
+			case navi_flag_destPoint:
+				
+				break;
+			}
 		}
-
-		@Override
-		public void onGetReverseGeoCodeResult(
-				ReverseGeoCodeResult reverseGeoCodeResult) {
-//			// / 经纬度--> 地址
-//			if (reverseGeoCodeResult == null
-//					|| reverseGeoCodeResult.error != SearchResult.ERRORNO.NO_ERROR) {
-//				Toast.makeText(AtyNaviDestPointSelect.this, "抱歉，未能找到结果",
-//						Toast.LENGTH_LONG).show();
-//			}
-//
-//			address = reverseGeoCodeResult.getAddress();
-//			if (TextUtils.isEmpty(address)) {
-//				mylocation_tv.setText("暂未获取到地址信息");
-//			} else {
-//				destAddress = address;
-//				mylocation_tv.setText(address);
-//			}
-//			List<PoiInfo> poiList = reverseGeoCodeResult.getPoiList();
-//			if (poiList != null && poiList.size() > 0) {
-//				PoiInfo poiInfo = poiList.get(0);
-//				Log.d("poiInfo: ", "address :" + poiInfo.address + "name: "
-//						+ poiInfo.name);
-//				if (!TextUtils.isEmpty(poiInfo.name)) {
-//					mylocation_address_tv.setText(poiInfo.name + "附近");
-//				} else {
-//					mylocation_address_tv.setText("");
-//				}
-//				destLL = poiInfo.location;
-//			} else {
-//				mylocation_address_tv.setText("抱歉，未能找到相关参照物");
-//			}
-
-		}
-
 	}
+	
+	
+	/**
+	 * 定位SDK监听函数
+	 */
+	public class MyLocationListenner implements BDLocationListener {
+
+		@Override
+		public void onReceiveLocation(BDLocation location) {
+			currentLL = new LatLng(location.getLatitude(), location.getLongitude());
+			address = location.getAddrStr();
+			mLatitude = location.getLatitude();
+			mLongitude = location.getLongitude();
+			city = location.getCity();
+
+		}
+
+		public void onReceivePoi(BDLocation poiLocation) {
+
+		}
+	}
+	
 }

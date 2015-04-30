@@ -296,6 +296,9 @@
     <!-- 淡蓝 -->
     <color name="holo_blue_light">#ff33b5e5</color>
     <!-- 透明 -->
+    
+    <color name="icon_base_2">#FDBC56</color>
+    
     <color name="transparent">#00000000</color>
     <color name="left_drawer_item_line">#ff272727</color>
     <color name="left_drawer_item_text_normal">#ffd4d4d4</color>
