@@ -101,14 +101,19 @@ public class AtyNaviSDSelect extends BaseActivity implements
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view,
 							int position, long id) {
-						PoiInfo poiInfo = pendingAddressItems.get(position);
-						Log.d("PoiInfo : ", poiInfo.address + "LL: "
-								+ poiInfo.location);
-						Intent intent = new Intent();
-						NaviSDInfo  naviSDInfo  = new NaviSDInfo(poiInfo.location.longitude, poiInfo.location.latitude, poiInfo.address);
-						intent.putExtra(AtyNaviDestSelect.NaviPointObj,naviSDInfo );
-						AtyNaviSDSelect.this.setResult(RESULT_OK, intent);
-						AtyNaviSDSelect.this.finish();
+						if (pendingAddressItems != null
+								&& pendingAddressItems.size() >= position) {
+							PoiInfo poiInfo = pendingAddressItems.get(position);
+							Log.d("PoiInfo : ", poiInfo.address + "LL: "+ poiInfo.location);
+							Intent intent = new Intent();
+							NaviSDInfo naviSDInfo = new NaviSDInfo(
+									poiInfo.location.longitude,
+									poiInfo.location.latitude, poiInfo.address);
+							intent.putExtra(AtyNaviDestSelect.NaviPointObj,
+									naviSDInfo);
+							AtyNaviSDSelect.this.setResult(RESULT_OK, intent);
+							AtyNaviSDSelect.this.finish();
+						}
 
 					}
 				});
@@ -121,13 +126,17 @@ public class AtyNaviSDSelect extends BaseActivity implements
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
 
-				if (s.length() <= 0) {
+				if (TextUtils.isEmpty(s)) {
 					return;
+				} else {
+					/**
+					 * 使用建议搜索服务获取建议列表，结果在onSuggestionResult()中更新
+					 */
+					mSuggestionSearch
+							.requestSuggestion((new SuggestionSearchOption())
+									.location(currentLatLng).city(city)
+									.keyword(s.toString().trim()));
 				}
-				/**
-				 * 使用建议搜索服务获取建议列表，结果在onSuggestionResult()中更新
-				 */
-				mSuggestionSearch.requestSuggestion((new SuggestionSearchOption()).keyword(s.toString()).location(currentLatLng));
 			}
 
 			@Override
@@ -148,11 +157,11 @@ public class AtyNaviSDSelect extends BaseActivity implements
 					public boolean onEditorAction(TextView v, int actionId,
 							KeyEvent event) {
 						if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-							Toast.makeText(AtyNaviSDSelect.this, "请稍等，正在查询中",
-									Toast.LENGTH_SHORT).show();
 							String kw = navi_road_point_input_actv.getText()
 									.toString().trim();
 							if (!TextUtils.isEmpty(kw)) {
+								Toast.makeText(AtyNaviSDSelect.this,
+										"请稍等，正在查询中", Toast.LENGTH_SHORT).show();
 								mPoiSearch
 										.searchNearby(new PoiNearbySearchOption()
 												.location(currentLatLng)
@@ -227,11 +236,13 @@ public class AtyNaviSDSelect extends BaseActivity implements
 		}
 		if (result.error == SearchResult.ERRORNO.NO_ERROR) {
 			List<PoiInfo> allPoi = result.getAllPoi();
+
 			if (allPoi != null && allPoi.size() > 0) {
+				pendingAddressItems = allPoi;
 				choicePointAdapter.setData(allPoi);
 				choicePointAdapter.notifyDataSetChanged();
 				if (navi_address_pendingitem_lv != null) {
-					navi_address_pendingitem_lv.setVisibility(View.GONE);
+					navi_address_pendingitem_lv.setVisibility(View.VISIBLE);
 				}
 			}
 			return;

@@ -25,7 +25,7 @@
             android:paddingLeft="10dp"
             android:singleLine="true"
             android:text=""
-            android:textColor="@color/holo_blue_light"
+            android:textColor="@android:color/background_dark"
             android:textCursorDrawable="@null" />
 
         <TextView
