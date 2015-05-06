@@ -11,6 +11,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -43,6 +44,7 @@ import com.samuelnotes.bdmaps.R;
 
 /**
  * 
+ * 导航地址选择
  * 
  * @author samuelnotes
  *
@@ -70,6 +72,8 @@ public class AtyNaviSDSelect extends BaseActivity implements
 
 	private ChoicePointAdapter choicePointAdapter;
 
+	private TextView navi_road_point_input_mylocation_tv;
+
 	public String address;
 
 	public double mLatitude;
@@ -82,13 +86,34 @@ public class AtyNaviSDSelect extends BaseActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.navi_road_sd_select);
+		int flag = getIntent().getFlags();
 		mPoiSearch = PoiSearch.newInstance();
 		mPoiSearch.setOnGetPoiSearchResultListener(this);
 		mSuggestionSearch = SuggestionSearch.newInstance();
 		mSuggestionSearch.setOnGetSuggestionResultListener(this);
+		navi_road_point_input_mylocation_tv = (TextView) findViewById(R.id.navi_road_point_input_mylocation_tv);
+		navi_road_point_input_mylocation_tv
+				.setOnClickListener(new OnClickListener() {
 
+					@Override
+					public void onClick(View v) {
+
+						Intent intent = new Intent();
+						NaviSDInfo naviSDInfo = new NaviSDInfo(
+								currentLatLng.longitude,
+								currentLatLng.latitude, "我的位置");
+						intent.putExtra(AtyNaviDestSelect.NaviPointObj,
+								naviSDInfo);
+						AtyNaviSDSelect.this.setResult(RESULT_OK, intent);
+						AtyNaviSDSelect.this.finish();
+
+					}
+				});
 		navi_road_point_input_actv = (AutoCompleteTextView) this
 				.findViewById(R.id.navi_road_point_input_actv);
+		if (flag == 1) {
+			navi_road_point_input_actv.setHint("请输入导航结束地点");
+		}
 		navi_address_pendingitem_lv = (ListView) this
 				.findViewById(R.id.navi_address_pendingitem_lv);
 		choicePointAdapter = new ChoicePointAdapter(AtyNaviSDSelect.this,
@@ -104,7 +129,8 @@ public class AtyNaviSDSelect extends BaseActivity implements
 						if (pendingAddressItems != null
 								&& pendingAddressItems.size() >= position) {
 							PoiInfo poiInfo = pendingAddressItems.get(position);
-							Log.d("PoiInfo : ", poiInfo.address + "LL: "+ poiInfo.location);
+							Log.d("PoiInfo : ", poiInfo.address + "LL: "
+									+ poiInfo.location);
 							Intent intent = new Intent();
 							NaviSDInfo naviSDInfo = new NaviSDInfo(
 									poiInfo.location.longitude,
@@ -126,7 +152,7 @@ public class AtyNaviSDSelect extends BaseActivity implements
 			public void onTextChanged(CharSequence s, int start, int before,
 					int count) {
 
-				if (TextUtils.isEmpty(s)) {
+				if (TextUtils.isEmpty(s) || TextUtils.isEmpty(city)) {
 					return;
 				} else {
 					/**
@@ -175,6 +201,11 @@ public class AtyNaviSDSelect extends BaseActivity implements
 					}
 				});
 
+		startLocClient();
+
+	}
+
+	private void startLocClient() {
 		mLocClient = new LocationClient(this);
 		mLocClient.registerLocationListener(myListener);
 		LocationClientOption option = new LocationClientOption();
@@ -184,7 +215,6 @@ public class AtyNaviSDSelect extends BaseActivity implements
 		option.setScanSpan(15000);// 设置发起定位请求的间隔时间为10s(小于1秒则一次定位)
 		mLocClient.setLocOption(option);
 		mLocClient.start();
-
 	}
 
 	/**
@@ -244,21 +274,28 @@ public class AtyNaviSDSelect extends BaseActivity implements
 				if (navi_address_pendingitem_lv != null) {
 					navi_address_pendingitem_lv.setVisibility(View.VISIBLE);
 				}
+			} else {
+				Toast.makeText(AtyNaviSDSelect.this, "未找到相关地点",
+						Toast.LENGTH_LONG).show();
 			}
 			return;
-		}
-		if (result.error == SearchResult.ERRORNO.AMBIGUOUS_KEYWORD) {
+		} else {
+			Toast.makeText(AtyNaviSDSelect.this, "未找到相关地点", Toast.LENGTH_LONG)
+					.show();
 
-			// 当输入关键字在本市没有找到，但在其他城市找到时，返回包含该关键字信息的城市列表
-			// String strInfo = "在";
-			// for (CityInfo cityInfo : result.getSuggestCityList()) {
-			// strInfo += cityInfo.city;
-			// strInfo += ",";
-			// }
-			// strInfo += "找到结果";
-			// Toast.makeText(AtyNaviSDSelect.this, strInfo, Toast.LENGTH_LONG)
-			// .show();
 		}
+		// if (result.error == SearchResult.ERRORNO.AMBIGUOUS_KEYWORD) {
+
+		// 当输入关键字在本市没有找到，但在其他城市找到时，返回包含该关键字信息的城市列表
+		// String strInfo = "在";
+		// for (CityInfo cityInfo : result.getSuggestCityList()) {
+		// strInfo += cityInfo.city;
+		// strInfo += ",";
+		// }
+		// strInfo += "找到结果";
+		// Toast.makeText(AtyNaviSDSelect.this, strInfo, Toast.LENGTH_LONG)
+		// .show();
+		// }
 	}
 
 	@Override
@@ -266,6 +303,7 @@ public class AtyNaviSDSelect extends BaseActivity implements
 		super.onDestroy();
 		mPoiSearch.destroy();
 		mSuggestionSearch.destroy();
+		mLocClient.stop();
 	}
 
 }

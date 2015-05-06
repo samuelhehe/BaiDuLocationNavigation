@@ -8,9 +8,7 @@
         android:id="@+id/navi_road_point_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/map_layer_background" >
+        android:layout_alignParentTop="true" >
 
         <Button
             android:id="@+id/navi_road_point_exchange_btn"
@@ -18,6 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
+            android:background="@drawable/common_btn_bg"
             android:text="切换" />
 
         <Button
@@ -29,7 +28,7 @@
             android:layout_marginTop="10dp"
             android:layout_toLeftOf="@+id/navi_road_point_input_btn"
             android:layout_toRightOf="@+id/navi_road_point_exchange_btn"
-            android:background="@android:color/background_light"
+            android:background="@drawable/common_btn_bg"
             android:gravity="center_vertical|left"
             android:hint="请输入起点"
             android:paddingLeft="10dp"
@@ -44,7 +43,7 @@
             android:layout_alignTop="@+id/navi_road_point_input_addrss"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
-            android:background="@android:color/background_light"
+            android:background="@drawable/common_btn_bg"
             android:drawableLeft="@drawable/indoor_loc_suc"
             android:drawablePadding="3dp"
             android:text="选点" />
@@ -67,11 +66,11 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:layout_toLeftOf="@+id/navi_road_point_input_btn"
-            android:background="@android:color/background_light"
+            android:background="@drawable/common_btn_bg"
             android:gravity="center_vertical|left"
-            android:text=""
             android:hint="请输入终点"
             android:paddingLeft="10dp"
+            android:text=""
             android:textColor="@android:color/background_dark" />
 
         <Button
@@ -82,7 +81,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/navi_road_dest_input_addrss"
             android:layout_marginRight="5dp"
-            android:background="@android:color/background_light"
+            android:background="@drawable/common_btn_bg"
             android:drawableLeft="@drawable/indoor_loc_suc"
             android:drawablePadding="3dp"
             android:text="选点" />
@@ -95,10 +94,10 @@
         android:layout_below="@+id/navi_road_point_rl"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_marginTop="50dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:background="@drawable/map_layer_background"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/zoom_selector"
         android:text="开始导航"
         android:textColor="@color/holo_blue_light"
         android:textSize="22sp" />

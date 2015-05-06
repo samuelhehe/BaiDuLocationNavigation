@@ -9,8 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/map_layer_background" >
+        android:layout_marginTop="10dp" >
 
         <AutoCompleteTextView
             android:id="@+id/navi_road_point_input_actv"

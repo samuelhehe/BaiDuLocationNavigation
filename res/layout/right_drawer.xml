@@ -66,7 +66,7 @@
                     android:id="@+id/type1"
                     android:layout_width="65dp"
                     android:layout_height="45dp"
-                    android:src="@drawable/map1" />
+                    android:src="@drawable/main_map_mode_plain_normal" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -87,7 +87,7 @@
                     android:id="@+id/type2"
                     android:layout_width="65dp"
                     android:layout_height="45dp"
-                    android:src="@drawable/map2" />
+                    android:src="@drawable/main_map_mode_3d_normal" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -106,7 +106,7 @@
                     android:id="@+id/type3"
                     android:layout_width="65dp"
                     android:layout_height="45dp"
-                    android:src="@drawable/map3" />
+                    android:src="@drawable/main_map_mode_satellite_normal" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -214,7 +214,6 @@
             </LinearLayout>
 
             <RelativeLayout
-                android:id="@+id/favorite_btn"
                 style="@style/left_drawer_item_layout" >
 
                 <TextView
@@ -230,7 +229,6 @@
                 android:layout_height="wrap_content" >
 
                 <LinearLayout
-                    android:id="@+id/favorite_btn"
                     style="@style/left_drawer_item_layout"
                     android:gravity="center|left" >
 
@@ -252,7 +250,6 @@
             <ImageView style="@style/left_drawer_item_line" />
 
             <RelativeLayout
-                android:id="@+id/favorite_btn"
                 style="@style/left_drawer_item_layout" >
 
                 <TextView

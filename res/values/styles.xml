@@ -2,19 +2,21 @@
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
     <style name="AppBaseTheme" parent="android:Theme.Light">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
+            backward-compatibility can go here.
         -->
     </style>
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
+
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:windowNoTitle">true</item>
     </style>
 
     <style name="BlackBigText_14_g">
@@ -22,13 +24,13 @@
         <item name="android:textColor">#414040</item>
         <item name="android:textStyle">bold</item>
     </style>
-    
+
     <style name="left_drawer_item_line">
         <item name="android:background">@color/left_drawer_item_line</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">0.5dip</item>
     </style>
-    
+
     <style name="left_drawer_item_layout">
         <item name="android:gravity">center_vertical</item>
         <item name="android:background">@drawable/left_drawer_item_bg</item>
@@ -38,7 +40,7 @@
         <item name="android:minHeight">50.0dip</item>
         <item name="android:clickable">true</item>
     </style>
-    
+
     <style name="left_drawer_item_text">
         <item name="android:textSize">15.0sp</item>
         <item name="android:textColor">@color/left_drawer_item_text_normal</item>
@@ -49,9 +51,9 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:drawablePadding">25.0dip</item>
     </style>
-    
-    
-    <!-- <style name="Switch">
+
+    <!--
+    <style name="Switch">
         <item name="track">@drawable/switch_btn</item>
         <item name="thumb">@drawable/switch_btn_slipper</item>
         <item name="switchTextAppearance">@android:style/TextAppearance.Small</item>
@@ -62,21 +64,23 @@
         <item name="switchPadding">10dip</item>
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:background">#00FFFFFF</item>
-    </style> -->
-    
+    </style>
+    -->
+
     <style name="PopupAnimation" parent="android:Animation">
-		<item name="android:windowEnterAnimation">@anim/slide_in_right_scale</item>
-		<item name="android:windowExitAnimation">@anim/slide_out_right_scale</item>
-	</style>
-	
+        <item name="android:windowEnterAnimation">@anim/slide_in_right_scale</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_right_scale</item>
+    </style>
+
     <style name="Theme.CustomDialog" parent="android:style/Theme.Dialog">
         <item name="android:windowBackground">@drawable/filled_box</item>
         <item name="android:windowIsTranslucent">false</item>
         <item name="android:windowIsFloating">true</item>
--                                 <!-- 是否浮现在activity之上 -->
+-                                         <!-- 是否浮现在activity之上 -->
         <item name="android:backgroundDimEnabled">true</item>
-        <item name="android:textColor">@color/black</item>  <!-- 模糊 -->
+        <item name="android:textColor">@color/black</item>
+ <!-- 模糊 -->
         <item name="android:windowNoTitle">true</item>
     </style>
-    
+
 </resources>

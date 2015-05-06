@@ -297,6 +297,8 @@
     <color name="holo_blue_light">#ff33b5e5</color>
     <!-- 透明 -->
     
+    <color name="shallow_dark_gray">#dcdcdc</color>
+    
     <color name="icon_base_2">#FDBC56</color>
     
     <color name="transparent">#00000000</color>

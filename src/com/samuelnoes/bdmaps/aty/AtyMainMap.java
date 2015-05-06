@@ -1,5 +1,9 @@
 package com.samuelnoes.bdmaps.aty;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,13 +22,16 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BaiduMapOptions;
+import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatus;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.search.geocode.GeoCoder;
@@ -34,12 +41,13 @@ import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
 import com.baidu.mapapi.search.poi.PoiDetailResult;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
+import com.samuelnoes.bdmaps.model.Price;
 import com.samuelnotes.bdmaps.R;
 import com.samuelnotes.bdmaps.app.AppSharedPreference;
 
 /**
  * 
- * 主控件
+ * 主界面
  * 
  * @author superuser
  *
@@ -77,11 +85,19 @@ public class AtyMainMap extends Activity implements OnClickListener {
 
 	private TextView mylocation_radius, mylocation_address_tv;
 
+	private Marker mMarker;
+	private List<Marker> markers = new ArrayList<Marker>();
+	private ArrayList<Price> list;
+	private LinearLayout popLayout;
+	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_uisetting);
-
+		setContentView(R.layout.act_mainmap);
+		
+		initMarkerData();
+		
 		mapView_layout = (LinearLayout) findViewById(R.id.mapView_layout);
 		findViewById(R.id.plus_layout).setOnClickListener(this);// / 放大
 		findViewById(R.id.sub_layout).setOnClickListener(this); // / 缩小
@@ -118,8 +134,9 @@ public class AtyMainMap extends Activity implements OnClickListener {
 		mPoiSearch.setOnGetPoiSearchResultListener(new GetPoiSearchResult());
 		docenter = (ImageView) findViewById(R.id.docenter);
 		docenter.setOnClickListener(this);
+		// / 导航
 		this.findViewById(R.id.navi_road_ll).setOnClickListener(this);
-		
+
 		/**
 		 * 启动定位模块
 		 */
@@ -142,6 +159,95 @@ public class AtyMainMap extends Activity implements OnClickListener {
 		if (mylocation_address_tv != null) {
 			mylocation_address_tv.setText("正在获取地址信息， 请稍等..");
 		}
+	}
+
+	/**
+	 * //清除覆盖物Marker
+	 */
+	public void delMarker() {
+		if (mMarker != null && markers.size() > 0) {
+			for (int i = 0; i < markers.size(); i++) {
+				markers.get(i).remove();
+			}
+		}
+	}
+
+	private void initMarkerData() {
+		int s = 598;
+		list = new ArrayList<Price>();
+		for (int i = 0; i < 5; i++) {
+			s -= 40;
+			Price price = new Price();
+			price.setId(i + 1 + "");
+			price.setPrice(s + "");
+			price.setName("沃金大酒店" + i);
+			price.setInfo("沃金广场富鑫公寓" + i + "号");
+			list.add(price);
+		}
+
+	}
+	
+	private boolean isDetail=false;//是否为详情Marker
+	
+	
+	/**
+	 * 加载价格覆盖物
+	 * @param latLng 经纬度
+	 * @param list	
+	 * @param Detail 是否加载详情	 
+	 */
+	private void initAddOverLayMarker( LatLng latLng,List<Price> list) {
+
+	
+			//OverlayOptions textOption = new TextOptions().
+			if(latLng==null){
+				return;
+			}
+			double la=latLng.latitude;
+			double lon=latLng.longitude;
+			for(int i=0;i<list.size();i++){
+				la+=0.005;
+				lon+=0.005;
+				Log.v(la+"======", lon+"");
+				View view=null;
+				if (!isDetail) {
+					view = getLayoutInflater().inflate(R.layout.popview, null);
+					TextView image = (TextView) view.findViewById(R.id.image);
+					popLayout=(LinearLayout) view.findViewById(R.id.poplayout);
+					if (i == 0) {
+						image.setBackgroundResource(R.drawable.hotel_a);
+					} else if (i == 1) {
+						image.setBackgroundResource(R.drawable.hotel_b);
+					} else if (i == 2) {
+						image.setBackgroundResource(R.drawable.hotel_c);
+					} else if (i == 3) {
+						image.setBackgroundResource(R.drawable.hotel_d);
+					} else {
+						image.setBackgroundResource(R.drawable.hotel_a);
+					}
+					image.setText("￥" + list.get(i).getPrice());
+				} else {
+					view = getLayoutInflater().inflate(R.layout.popview_detail, null);
+					popLayout=(LinearLayout) view.findViewById(R.id.popLayout);
+					TextView price = (TextView) view.findViewById(R.id.price);
+					TextView name = (TextView) view.findViewById(R.id.name);
+					TextView info = (TextView) view.findViewById(R.id.info);
+					price.setText("￥" + list.get(i).getPrice());
+					price.setTextColor(getResources().getColor(R.color.red));
+					name.setText(list.get(i).getName());
+					info.setText(list.get(i).getInfo());	
+				}
+				
+				// 将View转化成用于显示的bitmap
+				BitmapDescriptor bitmap =BitmapDescriptorFactory.fromView(view);
+				LatLng lng=new LatLng(la,lon);
+				
+				OverlayOptions overlayOptions=new MarkerOptions().position(lng).icon(bitmap).zIndex(i);
+				mMarker=(Marker) mBaiduMap.addOverlay(overlayOptions);
+				markers.add(mMarker);
+			}
+						
+		
 	}
 
 	@Override
@@ -169,11 +275,11 @@ public class AtyMainMap extends Activity implements OnClickListener {
 			mBaiduMap.setMapStatus(msu1);
 			// mBaiduMap.animateMapStatus(msu1);
 			break;
-			
+
 		case R.id.navi_road_ll:
 			startActivity(new Intent(this, AtyNaviDestSelect.class));
 			break;
-			
+
 		}
 	}
 
@@ -234,13 +340,15 @@ public class AtyMainMap extends Activity implements OnClickListener {
 					.direction(100).latitude(location.getLatitude())
 					.longitude(location.getLongitude()).build();
 			mBaiduMap.setMyLocationData(locData);
+			LatLng ll = null ;
 			if (isFirstLoc) {
 				isFirstLoc = false;
-				LatLng ll = new LatLng(location.getLatitude(),
+				ll= new LatLng(location.getLatitude(),
 						location.getLongitude());
 				MapStatusUpdate u = MapStatusUpdateFactory.newLatLng(ll);
 				mBaiduMap.animateMapStatus(u);
 			}
+			ll = new LatLng(location.getLatitude(), location.getLongitude());
 			mLatitude = location.getLatitude();
 			mLongitude = location.getLongitude();
 			if (mLatitude > 0 && mLongitude > 0) {
@@ -262,6 +370,8 @@ public class AtyMainMap extends Activity implements OnClickListener {
 				mylocation_address_tv.setText("" + city + ":" + address + "附近");
 			}
 
+			initAddOverLayMarker(ll,list);
+			
 		}
 
 		public void onReceivePoi(BDLocation poiLocation) {

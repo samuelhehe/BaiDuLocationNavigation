@@ -1,11 +1,16 @@
+
+
+
 package com.samuelnoes.bdmaps.aty;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -36,7 +41,14 @@ import com.baidu.mapapi.search.poi.PoiSearch;
 import com.samuelnotes.bdmaps.R;
 import com.samuelnotes.bdmaps.app.AppSharedPreference;
 
-public class UISettingDemo extends Activity implements OnClickListener {
+/**
+ * 
+ * 主界面
+ * 
+ * @author superuser
+ *
+ */
+public class AtyMainMap2 extends Activity implements OnClickListener {
 
 	/**
 	 * MapView 是地图主控件
@@ -54,7 +66,7 @@ public class UISettingDemo extends Activity implements OnClickListener {
 
 	private LocationClient mLocClient;
 
-	public MyLocationListenner myListener = new MyLocationListenner();
+	public  MyLocationListenner myListener = new MyLocationListenner();
 
 	private double mLatitude = 0;
 	private double mLongitude = 0;
@@ -72,17 +84,18 @@ public class UISettingDemo extends Activity implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_uisetting);
-
+		setContentView(R.layout.act_mainmap2);
 		mapView_layout = (LinearLayout) findViewById(R.id.mapView_layout);
 		findViewById(R.id.plus_layout).setOnClickListener(this);// / 放大
 		findViewById(R.id.sub_layout).setOnClickListener(this); // / 缩小
 		mylocation_radius = (TextView) findViewById(R.id.mylocation_radius);
 		mylocation_address_tv = (TextView) findViewById(R.id.mylocation_address_tv);
 		mLatitude = AppSharedPreference.getLastLocationLatitude(this);
-		mLongitude  = AppSharedPreference.getLastLocationLongitude(this);
+		mLongitude = AppSharedPreference.getLastLocationLongitude(this);
 		// 设置默认位置为北京 缩放级别为13.5f
-		MapStatus mapStatus = new MapStatus.Builder().target(new LatLng(mLatitude, mLongitude)).zoom(zoomLevel).build();
+		MapStatus mapStatus = new MapStatus.Builder()
+				.target(new LatLng(mLatitude, mLongitude)).zoom(zoomLevel)
+				.build();
 		BaiduMapOptions mapOptions = new BaiduMapOptions();
 		// 隐藏地图缩放控件
 		mapOptions.zoomControlsEnabled(false).mapStatus(mapStatus);
@@ -108,10 +121,15 @@ public class UISettingDemo extends Activity implements OnClickListener {
 		mPoiSearch.setOnGetPoiSearchResultListener(new GetPoiSearchResult());
 		docenter = (ImageView) findViewById(R.id.docenter);
 		docenter.setOnClickListener(this);
+		/// 导航
+		this.findViewById(R.id.navi_road_ll).setOnClickListener(this);
+		this.findViewById(R.id.show_search_content_tv).setOnClickListener(this);
+		
 		/**
 		 * 启动定位模块
 		 */
 		startLocation();
+		
 	}
 
 	private void startLocation() {
@@ -130,7 +148,6 @@ public class UISettingDemo extends Activity implements OnClickListener {
 		if (mylocation_address_tv != null) {
 			mylocation_address_tv.setText("正在获取地址信息， 请稍等..");
 		}
-
 	}
 
 	@Override
@@ -158,11 +175,23 @@ public class UISettingDemo extends Activity implements OnClickListener {
 			mBaiduMap.setMapStatus(msu1);
 			// mBaiduMap.animateMapStatus(msu1);
 			break;
+			
+		case R.id.navi_road_ll:
+			startActivity(new Intent(this, AtyNaviDestSelect.class));
+			break;
+			
+		case R.id.show_search_content_tv:
+			//// search_activity
+//			startActivity(new Intent(this, AtyNaviDestSelect.class));
+			break;
 		}
 	}
 
 	class GeoCodeResult implements OnGetGeoCoderResultListener {
 
+		
+		
+		
 		@Override
 		public void onGetGeoCodeResult(
 				com.baidu.mapapi.search.geocode.GeoCodeResult geoCodeResult) {
@@ -170,15 +199,13 @@ public class UISettingDemo extends Activity implements OnClickListener {
 			mBaiduMap.clear();
 			mBaiduMap.addOverlay(new MarkerOptions().position(
 					geoCodeResult.getLocation()).icon(
-					BitmapDescriptorFactory
-							.fromResource(R.drawable.icon_gcoding)));
+					BitmapDescriptorFactory.fromResource(R.drawable.icon_gcoding)));
 			mBaiduMap.setMapStatus(MapStatusUpdateFactory
 					.newLatLng(geoCodeResult.getLocation()));
 			String strInfo = String.format("纬度：%f 经度：%f",
 					geoCodeResult.getLocation().latitude,
 					geoCodeResult.getLocation().longitude);
-			Toast.makeText(UISettingDemo.this, strInfo, Toast.LENGTH_LONG)
-					.show();
+			Toast.makeText(AtyMainMap2.this, strInfo, Toast.LENGTH_LONG).show();
 		}
 
 		@Override
@@ -228,9 +255,11 @@ public class UISettingDemo extends Activity implements OnClickListener {
 			}
 			mLatitude = location.getLatitude();
 			mLongitude = location.getLongitude();
-			if(mLatitude>0&&mLongitude>0){
-				AppSharedPreference.setLastLocationLatitude(UISettingDemo.this, mLatitude);
-				AppSharedPreference.setLastLocationLongitude(UISettingDemo.this, mLongitude);
+			if (mLatitude > 0 && mLongitude > 0) {
+				AppSharedPreference.setLastLocationLatitude(AtyMainMap2.this,
+						mLatitude);
+				AppSharedPreference.setLastLocationLongitude(AtyMainMap2.this,
+						mLongitude);
 			}
 			address = location.getAddrStr();
 			radius = location.getRadius();

@@ -6,7 +6,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -17,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.baidu.lbsapi.auth.LBSAuthManagerListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
@@ -42,11 +40,7 @@ import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
 import com.baidu.mapapi.search.poi.PoiDetailResult;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
-import com.baidu.navisdk.BNaviEngineManager.NaviEngineInitListener;
-import com.baidu.navisdk.BNaviPoint;
-import com.baidu.navisdk.BaiduNaviManager;
-import com.baidu.navisdk.BaiduNaviManager.OnStartNavigationListener;
-import com.baidu.navisdk.comapi.routeplan.RoutePlanParams.NE_RoutePlan_Mode;
+import com.samuelnoes.bdmaps.model.NaviSDInfo;
 import com.samuelnoes.bdmaps.view.NaviPointView;
 import com.samuelnotes.bdmaps.R;
 import com.samuelnotes.bdmaps.app.AppSharedPreference;
@@ -82,7 +76,6 @@ public class AtyNaviDestPointSelect extends Activity implements OnClickListener 
 	private String address;;
 
 	private LinearLayout mapView_layout;
-	private PoiSearch mPoiSearch;
 
 	private ImageView docenter;
 	private float zoomLevel = 14f;// 当前地图缩放级别
@@ -154,51 +147,14 @@ public class AtyNaviDestPointSelect extends Activity implements OnClickListener 
 		mSearch = GeoCoder.newInstance();
 		mSearch.setOnGetGeoCodeResultListener(new GeoCodeResult());
 
-		// 初始化Poi搜索模块，注册搜索事件监听
-		mPoiSearch = PoiSearch.newInstance();
-		mPoiSearch.setOnGetPoiSearchResultListener(new GetPoiSearchResult());
 		docenter = (ImageView) findViewById(R.id.docenter);
 		docenter.setOnClickListener(this);
 		/**
 		 * 启动定位模块
 		 */
 		startLocation();
-
-		BaiduNaviManager.getInstance().initEngine(this, getSdcardDir(),
-				mNaviEngineInitListener, new LBSAuthManagerListener() {
-					@Override
-					public void onAuthResult(int status, String msg) {
-						String str = null;
-						if (0 == status) {
-							str = "导航引擎启动成功";
-						} else {
-							str = "导航引擎启动失败" + msg;
-						}
-						Toast.makeText(AtyNaviDestPointSelect.this, str,
-								Toast.LENGTH_LONG).show();
-					}
-				});
 	}
 
-	private String getSdcardDir() {
-		if (Environment.getExternalStorageState().equalsIgnoreCase(
-				Environment.MEDIA_MOUNTED)) {
-			return Environment.getExternalStorageDirectory().toString();
-		}
-		return null;
-	}
-
-	private NaviEngineInitListener mNaviEngineInitListener = new NaviEngineInitListener() {
-		public void engineInitSuccess() {
-			mIsEngineInitSuccess = true;
-		}
-
-		public void engineInitStart() {
-		}
-
-		public void engineInitFail() {
-		}
-	};
 
 	private void startLocation() {
 		// 开启定位图层
@@ -247,43 +203,20 @@ public class AtyNaviDestPointSelect extends Activity implements OnClickListener 
 			break;
 
 		case R.id.mylocation_choice_btn:
-			launchNavigator2(startLL, destLL, startAddress, destAddress);
+			
+			Intent intent = new Intent();
+			NaviSDInfo naviSDInfo = new NaviSDInfo(
+					destLL.longitude,
+					destLL.latitude, address);
+			intent.putExtra(AtyNaviDestSelect.NaviPointObj,	naviSDInfo);
+			AtyNaviDestPointSelect.this.setResult(RESULT_OK, intent);
+			AtyNaviDestPointSelect.this.finish();
+			
 			break;
 
 		}
 	}
 
-	/**
-	 * 指定导航起终点启动GPS导航.起终点可为多种类型坐标系的地理坐标。 前置条件：导航引擎初始化成功
-	 */
-	private void launchNavigator2(LatLng startLL, LatLng destLL,
-			String startAddress, String destAddress) {
-		// 这里给出一个起终点示例，实际应用中可以通过POI检索、外部POI来源等方式获取起终点坐标
-		BNaviPoint startPoint = new BNaviPoint(startLL.longitude,
-				startLL.latitude, startAddress,
-				BNaviPoint.CoordinateType.BD09_MC);
-		BNaviPoint endPoint = new BNaviPoint(destLL.longitude, destLL.latitude,
-				destAddress, BNaviPoint.CoordinateType.BD09_MC);
-		BaiduNaviManager.getInstance().launchNavigator(this, startPoint, // 起点（可指定坐标系）
-				endPoint, // 终点（可指定坐标系）
-				NE_RoutePlan_Mode.ROUTE_PLAN_MOD_MIN_TIME, // 算路方式
-				true, // 真实导航
-				BaiduNaviManager.STRATEGY_FORCE_ONLINE_PRIORITY, // 在离线策略
-				new OnStartNavigationListener() { // 跳转监听
-
-					@Override
-					public void onJumpToNavigator(Bundle configParams) {
-						Intent intent = new Intent(AtyNaviDestPointSelect.this,
-								BNavigatorActivity.class);
-						intent.putExtras(configParams);
-						startActivity(intent);
-					}
-
-					@Override
-					public void onJumpToDownloader() {
-					}
-				});
-	}
 
 	class MapStatusChange implements OnMapStatusChangeListener {
 
@@ -362,6 +295,7 @@ public class AtyNaviDestPointSelect extends Activity implements OnClickListener 
 				Log.d("poiInfo: ", "address :" + poiInfo.address + "name: "
 						+ poiInfo.name);
 				if (!TextUtils.isEmpty(poiInfo.name)) {
+					address = poiInfo.address;
 					mylocation_address_tv.setText(poiInfo.name + "附近");
 				} else {
 					mylocation_address_tv.setText("");
@@ -370,43 +304,11 @@ public class AtyNaviDestPointSelect extends Activity implements OnClickListener 
 			} else {
 				mylocation_address_tv.setText("抱歉，未能找到相关参照物");
 			}
-			// for (PoiInfo poiInfo : poiList) {
-			// Log.d("poiInfo: ", "address :"+poiInfo.address +"name: "+
-			// poiInfo.name);
-			// }
-
-			// mBaiduMap.clear();
-			//
-			// View view = getLayoutInflater().inflate(R.layout.location_view,
-			// null);
-			// TextView textView = (TextView)
-			// view.findViewById(R.id.address_text);
-			// textView.setText(reverseGeoCodeResult.getAddress());
-			// // 将View转化成用于显示的bitmap
-			// BitmapDescriptor bitmap = BitmapDescriptorFactory.fromView(view);
-			// OverlayOptions overlayOptions = new MarkerOptions()
-			// .position(reverseGeoCodeResult.getLocation()).icon(bitmap)
-			// .zIndex(zIndex);
-			// mBaiduMap.addOverlay(overlayOptions);
-			// mBaiduMap.setMapStatus(MapStatusUpdateFactory
-			// .newLatLng(reverseGeoCodeResult.getLocation()));
 
 		}
 
 	}
 
-	class GetPoiSearchResult implements OnGetPoiSearchResultListener {
-
-		@Override
-		public void onGetPoiDetailResult(PoiDetailResult poiDetailResult) {
-			// TODO Auto-generated method stub
-		}
-
-		@Override
-		public void onGetPoiResult(PoiResult poiResult) {
-			// TODO Auto-generated method stub
-		}
-	}
 
 	/**
 	 * 定位SDK监听函数

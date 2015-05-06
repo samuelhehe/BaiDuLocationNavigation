@@ -23,6 +23,12 @@ import com.baidu.navisdk.comapi.routeplan.RoutePlanParams.NE_RoutePlan_Mode;
 import com.samuelnoes.bdmaps.model.NaviSDInfo;
 import com.samuelnotes.bdmaps.R;
 
+/**
+ * 
+ * 导航启动
+ * @author superuser
+ *
+ */
 public class AtyNaviDestSelect extends BaseActivity implements OnClickListener {
 
 
@@ -171,12 +177,12 @@ public class AtyNaviDestSelect extends BaseActivity implements OnClickListener {
 			/// 启动导航
 			break;
 		case R.id.navi_road_point_input_btn:
-			startActivityForResult(new Intent(AtyNaviDestSelect.this,AtyNaviSDSelect.class), navi_flag_startPoint);
+			startActivityForResult(new Intent(AtyNaviDestSelect.this,AtyNaviDestPointSelect.class), navi_flag_startPoint);
 			
 			/// 起点选点
 			break;
 		case R.id.navi_road_point_dest_input_btn:
-			startActivityForResult(new Intent(AtyNaviDestSelect.this,AtyNaviSDSelect.class), navi_flag_destPoint);
+			startActivityForResult(new Intent(AtyNaviDestSelect.this,AtyNaviDestPointSelect.class), navi_flag_destPoint);
 			
 			/// 结束选点
 			break;
@@ -186,7 +192,7 @@ public class AtyNaviDestSelect extends BaseActivity implements OnClickListener {
 			/// 开始选址
 			break;
 		case R.id.navi_road_dest_input_addrss:
-			startActivityForResult(new Intent(AtyNaviDestSelect.this,AtyNaviSDSelect.class), navi_flag_destAddrss);
+			startActivityForResult(new Intent(AtyNaviDestSelect.this,AtyNaviSDSelect.class).setFlags(1), navi_flag_destAddrss);
 			/// 结束选址
 			break;
 			
@@ -262,10 +268,18 @@ public class AtyNaviDestSelect extends BaseActivity implements OnClickListener {
 				}
 				break;
 			case navi_flag_startPoint:
-				
+				startNaviInfo= 	(NaviSDInfo) data.getSerializableExtra(NaviPointObj);
+				Log.d(TAG, "startNaviInfo: "+ startNaviInfo);
+				if(navi_road_point_input_addrss!=null){
+					navi_road_point_input_addrss.setText(startNaviInfo.getSdAddress());
+				}
 				break;
 			case navi_flag_destPoint:
-				
+				destNaviInfo = 	(NaviSDInfo) data.getSerializableExtra(NaviPointObj);
+				Log.d(TAG, "navidestInfo: "+ destNaviInfo);
+				if(navi_road_dest_input_addrss!=null){
+					navi_road_dest_input_addrss.setText(destNaviInfo.getSdAddress());
+				}
 				break;
 			}
 		}
