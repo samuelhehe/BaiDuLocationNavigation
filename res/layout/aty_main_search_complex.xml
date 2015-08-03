@@ -25,7 +25,7 @@
         android:layout_toRightOf="@+id/search_icon_iv"
         android:gravity="center_vertical|left"
         android:src="@drawable/poidetail_split"
-        android:text="搜地点、查公交、找路线"
+        android:text="搜地点、查公交、找路线(plan)"
         android:textColor="@color/gray"
         android:drawablePadding="3dp"
         android:drawableRight="@drawable/distance_line"

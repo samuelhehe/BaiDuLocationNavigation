@@ -84,7 +84,6 @@
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="9Os6fXNMfbK8x5xp3IFY0hva" />
-        <!-- android:value="a3pk5zSc8YWKddagsCwQrdRj" /> -->
 
         <activity
             android:name="com.samuelnoes.bdmaps.aty.AtyNaviDestPointSelect"

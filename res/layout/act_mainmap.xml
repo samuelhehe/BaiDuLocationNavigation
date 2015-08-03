@@ -15,9 +15,9 @@
     <include
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginTop="5dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
         layout="@layout/aty_main_search_complex" />
 
     <LinearLayout
@@ -30,7 +30,8 @@
         android:layout_marginRight="10dp"
         android:background="@drawable/searchbg"
         android:gravity="center"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:visibility="invisible" >
 
         <ImageView
             android:id="@+id/roadplan"
@@ -82,10 +83,10 @@
         android:id="@+id/sub_layout"
         android:layout_width="33dp"
         android:layout_height="33dp"
+        android:layout_above="@+id/mylocation_ll"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="20dp"
         android:layout_marginRight="10dp"
-        android:layout_above="@+id/mylocation_ll"
         android:background="@drawable/zoom_selector"
         android:gravity="center"
         android:orientation="vertical"

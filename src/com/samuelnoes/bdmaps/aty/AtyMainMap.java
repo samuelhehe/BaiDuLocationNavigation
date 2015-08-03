@@ -216,16 +216,20 @@ public class AtyMainMap extends Activity implements OnClickListener {
 					popLayout=(LinearLayout) view.findViewById(R.id.poplayout);
 					if (i == 0) {
 						image.setBackgroundResource(R.drawable.hotel_a);
+						image.setText("A");
 					} else if (i == 1) {
 						image.setBackgroundResource(R.drawable.hotel_b);
+						image.setText("B");
 					} else if (i == 2) {
 						image.setBackgroundResource(R.drawable.hotel_c);
+						image.setText("C");
 					} else if (i == 3) {
 						image.setBackgroundResource(R.drawable.hotel_d);
+						image.setText("D");
 					} else {
+						image.setText("F");
 						image.setBackgroundResource(R.drawable.hotel_a);
 					}
-					image.setText("￥" + list.get(i).getPrice());
 				} else {
 					view = getLayoutInflater().inflate(R.layout.popview_detail, null);
 					popLayout=(LinearLayout) view.findViewById(R.id.popLayout);
